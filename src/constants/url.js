@@ -1,5 +1,9 @@
+const isDevelopment = process.env.NODE_ENV === 'development';
+
 export const urlVersion = '/v1';
-export const baseUrl = `https://user-preference-api-6f803dd8c244.herokuapp.com/api${urlVersion}`;
+export const baseUrl = isDevelopment
+  ? `http://localhost:3001/api${urlVersion}`
+  : `https://user-preference-api-6f803dd8c244.herokuapp.com/api${urlVersion}`;
 export const usersUrl = ({
   _id = ''
 }) => ({
