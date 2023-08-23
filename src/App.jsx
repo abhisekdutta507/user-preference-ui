@@ -18,7 +18,7 @@ export const appLoader = () => {
 
 export const App = (props = {}) => {
   const { children, ...rest } = props;
-  const [mode, theme, toggleTheme] = useTheme(MODE.DARK);
+  const [mode, theme, toggleTheme] = useTheme(MODE.LIGHT);
 
   return (
     <ThemeProvider theme={theme}>
