@@ -1,33 +1,25 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { createTheme } from '@mui/material/styles';
-import { useMediaQuery } from '@mui/material';
+// import { useMediaQuery } from '@mui/material';
 
 // others
-import { MODE, DarkDefault } from '../constants/theme';
+import { Preference, DarkDefault, Themes } from '../constants/theme';
 
-export const useTheme = (initialMode = MODE.LIGHT) => {
-  // const prefersDarkMode = useMediaQuery(`(prefers-color-scheme: ${MODE.LIGHT})`);
-  const [mode, setMode] = useState(initialMode);
+export const useTheme = (initialPreference = Preference.SUNNY) => {
+  const [preference, setPreference] = useState(initialPreference);
 
+  const theme = useMemo(() => {
+    const theme = Themes.get(preference);
+    return createTheme(theme);
+  }, [preference]);
 
-  /*
-  useEffect(() => {
-    // disable auto detect system mode
-    setMode(prefersDarkMode ? MODE.DARK : MODE.LIGHT);
-  }, [prefersDarkMode]);
-  */
+  const toggleTheme = (preference = Preference.SUNNY) => {
+    if(Themes.has(preference)) {
+      setPreference(preference);
+    };
+  };
 
-  const theme = useMemo(() => createTheme({
-    palette: {
-      mode,
-      // ...DarkDefault
-    }
-  // eslint-disable-next-line
-  }), [JSON.stringify({ mode })]);
-
-  const toggleTheme = () => setMode(mode === MODE.LIGHT ? MODE.DARK : MODE.LIGHT);
-
-  return [mode, theme, toggleTheme];
+  return [preference, theme, toggleTheme];
 };
 
 export default useTheme;

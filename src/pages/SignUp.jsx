@@ -1,18 +1,28 @@
-import { useCallback, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Box, Card, Input, Button, Typography } from '@mui/material';
+import { useCallback, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import LoginForm from '../components/LoginForm';
+import Loader from '../components/Loader';
+import Snackbar, { DefaultSnackProps } from '../components/Snackbar';
 import { signup } from '../services/auth';
+import { APIStatus } from '../constants/api';
 
 export const signupLoader = async ({ params, request }) => {
   return { username: '' };
 };
 
 const SignUp = () => {
+  const [snack, modifySnack] = useState({ ...DefaultSnackProps });
+  const [signupApi, setSignupApi] = useState(APIStatus().default);
   const signupForm = useRef();
   const navigate = useNavigate();
 
+  const handleSnackClose = () => {
+    modifySnack({ ...DefaultSnackProps });
+  };
+
   const handleSignup = useCallback(async (event) => {
     event.preventDefault();
+    setSignupApi(APIStatus().loading);
     const form = signupForm.current;
     const body = {
       username: form.username.value,
@@ -20,42 +30,42 @@ const SignUp = () => {
       preference: {}
     };
     const response = await signup(body);
+    setSignupApi(APIStatus().completed);
     if (response?.error) {
+      modifySnack({
+        ...DefaultSnackProps,
+        open: true,
+        severity: 'error',
+        message: response.error.message.text,
+        onClose: handleSnackClose,
+      });
       sessionStorage.removeItem('_id');
-      sessionStorage.removeItem('username');
       return;
     }
 
     const { data } = response.data;
-    const { _id, username } = data;
+    const { _id } = data;
     sessionStorage.setItem('_id', _id);
-    sessionStorage.setItem('username', username);
 
     return navigate('/');
   }, [navigate]);
 
   return (
-    <Box id="signup" className='form-ui'>
-      <Card className='login-card'>
-        <Box className='form-row'>
-          <Typography variant='h5'>Signup</Typography>
-        </Box>
-        <form ref={signupForm} onSubmit={handleSignup}>
-          <Box className='form-row form-row-input'>
-            <label htmlFor='username'>Username</label>
-            <Input id='username' name='username' type='text' required />
-          </Box>
-          <Box className='form-row form-row-input'>
-            <label htmlFor='password'>Password</label>
-            <Input id='password' name='password' type='password' required />
-          </Box>
-          <Box className='form-row form-row-action'>
-            <Button type='submit' variant='outlined'>Signup</Button>
-            <Link className='form-row-action-absolute' to="/login">Already have an account?</Link>
-          </Box>
-        </form>
-      </Card>
-    </Box>
+    <>
+      {
+        signupApi.isLoading && <Loader />
+      }
+      <Snackbar {...snack} />
+      <LoginForm
+        formId='signup'
+        formRef={signupForm}
+        onSubmit={handleSignup}
+        heading='Signup'
+        buttonLabel='Signup'
+        linkLabel='Already have an account?'
+        link='/login'
+      />
+    </>
   );
 };
 

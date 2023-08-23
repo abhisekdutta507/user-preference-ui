@@ -1,5 +1,18 @@
-.dashboard-header {}
-
 .dashboard-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 16px;
+}
+
+.card-row {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 8px;
+  margin-top: 8px;
+  position: relative;
+
+  &-input {
+    justify-content: space-between;
+  }
 }
