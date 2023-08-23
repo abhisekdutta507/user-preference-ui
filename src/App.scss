@@ -1,0 +1,46 @@
+.form-ui {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-card {
+  width: 380px;
+  padding: 16px;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 8px;
+  margin-top: 8px;
+  position: relative;
+
+  &-input {
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &-action {
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  #{&}-action-absolute {
+    position: absolute;
+    left: -12px;
+    top: 0px;
+    transform: translate(12px, 50%);
+    text-decoration: none;
+  }
+}
+
+.dashboard-header {
+  margin: 16px;
+}
+
+.dashboard-content {
+  margin: 16px;
+}

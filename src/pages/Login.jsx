@@ -1,5 +1,7 @@
 import { useCallback, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Box, Card, Input, Button, Typography } from '@mui/material';
+
 import { login } from '../services/auth';
 
 export const loginLoader = async ({ params, request }) => {
@@ -33,22 +35,25 @@ const Login = () => {
   }, [navigate]);
 
   return (
-    <div id="login" className="flex flex-column">
-      <form ref={loginForm} onSubmit={handleLogin}>
-        <div>
-          <label htmlFor='username'>Username</label>
-          <input id='username' name='username' type='text' required />
-        </div>
-        <div>
-          <label htmlFor='password'>Password</label>
-          <input id='password' name='password' type='password' required />
-        </div>
-        <div>
-          <button type='submit'>Login</button>
-          <Link to="/signup">Signup</Link>
-        </div>
-      </form>
-    </div>
+    <Box id='login' className='form-ui'>
+      <Card className='login-card'>
+        <Typography variant='h5'>Login</Typography>
+        <form ref={loginForm} onSubmit={handleLogin}>
+          <Box className='form-row form-row-input'>
+            <label htmlFor='username'>Username</label>
+            <Input id='username' name='username' type='text' required />
+          </Box>
+          <Box className='form-row form-row-input'>
+            <label htmlFor='password'>Password</label>
+            <Input id='password' name='password' type='password' required />
+          </Box>
+          <Box className='form-row form-row-action'>
+            <Button type='submit' variant='outlined'>Login</Button>
+            <Link className='form-row-action-absolute' to="/signup">Want to create an account?</Link>
+          </Box>
+        </form>
+      </Card>
+    </Box>
   );
 };
 

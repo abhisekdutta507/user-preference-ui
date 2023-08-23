@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import App, { appLoader } from './App';
+import Redirect, { redirectLoader } from './pages/Redirect';
 import Dashboard, { dashboardLoader } from './pages/Dashboard';
 import SignUp, { signupLoader } from './pages/SignUp';
 import Login, { loginLoader } from './pages/Login';
@@ -9,8 +9,8 @@ const router = createBrowserRouter([
   {
     path: '/',
     exact: true,
-    element: <App />,
-    loader: appLoader,
+    element: <Redirect />,
+    loader: redirectLoader,
     errorElement: <PageNotFound />,
   },
   {
