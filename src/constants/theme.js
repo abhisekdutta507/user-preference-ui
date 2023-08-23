@@ -23,3 +23,13 @@ export const DarkDefault = {
     main: '#5ee547'
   }
 };
+
+export const Preference = {
+  SUNNY: 'Sunny',
+  MOONLIGHT: 'Moonlight'
+};
+
+export const Themes = new Map([
+  [Preference.SUNNY, { palette: { mode: MODE.LIGHT }}],
+  [Preference.MOONLIGHT, { palette: { mode: MODE.DARK }}],
+]);

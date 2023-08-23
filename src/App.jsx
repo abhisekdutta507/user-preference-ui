@@ -3,11 +3,11 @@ import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import CssBaseline from '@mui/material/CssBaseline';
 import { useTheme } from './hooks/useTheme';
 import { RoutesWrapper } from './routes';
-import { MODE, DarkDefault } from './constants/theme';
+import { Preference, DarkDefault } from './constants/theme';
 import './App.scss';
 
 export const Context = createContext({
-  mode: MODE.LIGHT,
+  preference: Preference.SUNNY,
   theme: {},
   toggleTheme: () => {},
 });
@@ -18,13 +18,13 @@ export const appLoader = () => {
 
 export const App = (props = {}) => {
   const { children, ...rest } = props;
-  const [mode, theme, toggleTheme] = useTheme(MODE.LIGHT);
+  const [preference, theme, toggleTheme] = useTheme(Preference.SUNNY);
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Context.Provider value={{
-        mode,
+        preference,
         theme,
         toggleTheme
       }}>
